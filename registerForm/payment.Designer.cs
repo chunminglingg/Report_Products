@@ -42,6 +42,7 @@
             this.txtCashReturn = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.pay = new System.Windows.Forms.Button();
+            this.Check = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -185,11 +186,22 @@
             this.pay.UseVisualStyleBackColor = true;
             this.pay.Click += new System.EventHandler(this.pay_Click);
             // 
+            // Check
+            // 
+            this.Check.AutoSize = true;
+            this.Check.Location = new System.Drawing.Point(261, 387);
+            this.Check.Name = "Check";
+            this.Check.Size = new System.Drawing.Size(77, 20);
+            this.Check.TabIndex = 5;
+            this.Check.Text = "Preview";
+            this.Check.UseVisualStyleBackColor = true;
+            // 
             // payment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(941, 580);
+            this.Controls.Add(this.Check);
             this.Controls.Add(this.pay);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.txtCashReturn);
@@ -228,5 +240,6 @@
         private System.Windows.Forms.TextBox txtCashReturn;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button pay;
+        private System.Windows.Forms.CheckBox Check;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace registerForm
@@ -166,6 +167,79 @@ namespace registerForm
             }
         }
 
+        private void PrintReport(int orID, double discount, double cashReceived, bool preview)
+        {
+            try
+            {
+                FormReport report = new FormReport();
+                List<ReportDetails> arr = new List<ReportDetails>();
+
+                foreach (DataGridViewRow temp in data.Rows)
+                {
+                    // Skip empty rows
+                    if (temp.IsNewRow || temp.Cells[0].Value == null)
+                        continue;
+
+                    // Safely parse each value with proper error checking
+                    if (!int.TryParse(temp.Cells[0].Value.ToString(), out int no))
+                    {
+                        MessageBox.Show($"Invalid number format in row {temp.Index + 1}");
+                        return;
+                    }
+
+                    string pName = temp.Cells[1].Value?.ToString() ?? "";
+
+                    // Remove currency symbol and trim for price
+                    string priceStr = temp.Cells[2].Value?.ToString().Trim('$', ' ') ?? "0";
+                    if (!double.TryParse(priceStr,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out double price))
+                    {
+                        MessageBox.Show($"Invalid price format in row {temp.Index + 1}");
+                        return;
+                    }
+
+                    if (!int.TryParse(temp.Cells[3].Value?.ToString(), out int qty))
+                    {
+                        MessageBox.Show($"Invalid quantity format in row {temp.Index + 1}");
+                        return;
+                    }
+ 
+
+                    ReportDetails obj = new ReportDetails(no, pName, price, qty);
+                    arr.Add(obj);
+                }
+
+                if (arr.Count == 0)
+                {
+                    MessageBox.Show("No valid data to print in the report.");
+                    return;
+                }
+
+                report.setSource(arr);
+                report.setParameter(0, orID);
+                report.setParameter(1, coonString.Seller);
+                report.setParameter(2, discount);
+                report.setParameter(3, cashReceived);
+
+                if (preview)
+                {
+                    report.ShowDialog();
+                    this.Dispose();
+                }
+                else
+                {
+                    report.Print(1, true, 1, -1);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error generating report: {ex.Message}");
+            }
+        }
+
         private void Payment_Click(object sender, EventArgs e)
         {
 
@@ -183,6 +257,10 @@ namespace registerForm
 
                 // Update stock
                 UpdateStock();
+
+                // Print Report
+                PrintReport(OrId, frmPay.Discount, frmPay.CashReceived, frmPay.Preview);
+
 
                 //Clear previous data in datagrid
                 order = new List<OrderDetails>();

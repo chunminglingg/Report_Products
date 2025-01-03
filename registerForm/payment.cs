@@ -30,6 +30,7 @@ namespace registerForm
 
         private void pay_Click(object sender, EventArgs e)
         {
+            Preview  = Check.Checked;
             DialogResult = DialogResult.OK;
             this.Dispose();
         }
@@ -38,6 +39,7 @@ namespace registerForm
         public double Discount { get; set; }
         public double DiscountPrice { get; set; }
         
+        public Boolean Preview { get; set; }
         public double Pay { get; set; }
         public double CashReceived { get; set; }
         public double CashReturn { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace registerForm
 {
-    internal class ReportDetails
+    public class ReportDetails
     {
         public int No {  get; set; }
         public string ProductName { get; set; }
@@ -17,8 +17,13 @@ namespace registerForm
         {
 
         }
-      
 
-
+        public ReportDetails(int no, string productName, double price, int qty)
+        {
+            No = no;
+            ProductName = productName;
+            Price = price;
+            Qty = qty;
+        }
     }
 }
